@@ -23,7 +23,7 @@ function Header() {
         <img
           src="/omlogo.png"
           alt="Company Logo"
-          className="h-8 w-8 sm:h-10 sm:w-10 rounded-full hidden sm:block"
+          className="h-8 w-8 sm:h-10 sm:w-14 rounded-full hidden sm:block"
         />
         <h1 className="text-base sm:text-lg font-bold whitespace-nowrap">
           Om Logistics Ltd
