@@ -198,7 +198,7 @@ function NearByVehicle() {
         },
       })
       .then((response) => {
-        console.log("API Response:", response.data);
+        console.log("API Responses:", response.data);
         const responseData = Array.isArray(response.data)
           ? response.data
           : [response.data];
