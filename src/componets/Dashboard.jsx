@@ -178,19 +178,19 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 w-full z-10 bg-white shadow">
         <Header />
       </div>
 
       {/* Background with img */}
-      <div className="relative h-screen flex items-center justify-center pt-24">
+      <div className="relative fixed h-[100vh] flex items-center justify-center pt-24">
         {/* Background Image */}
         <Img
           src="/landing6.webp"
           alt="Background"
-          className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+          className="absolute top-0 left-0 w-full h-[100vh] object-cover -z-10"
         />
 
         {/* Content Section */}
