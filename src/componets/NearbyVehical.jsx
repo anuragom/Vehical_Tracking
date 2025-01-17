@@ -1,6 +1,5 @@
 
 
-
 // import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import { FaArrowLeft } from "react-icons/fa";
@@ -10,27 +9,35 @@
 
 // function NearByVehicle() {
 //   const [searchAddress, setSearchAddress] = useState("");
-//   const [searchLocation, setSearchLocation] = useState("");
+//   const [searchDistance, setSearchDistance] = useState("");
 //   const [apiResponse, setApiResponse] = useState([]);
 //   const [hasSearched, setHasSearched] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false); // New loading state
 //   const navigate = useNavigate();
 
 //   const handleSearch = () => {
+//     if (!searchAddress || !searchDistance) {
+//       alert("Please enter both address and distance.");
+//       return;
+//     }
+
 //     setHasSearched(true);
+//     setIsLoading(true); // Set loading to true
+
+//     // Configure request data
 //     const requestData = {
-//       KM_BRANCH_FROM: searchAddress,
-//       KM_BRANCH_TO: searchLocation,
+//       address: searchAddress,
+//       distance: parseFloat(searchDistance),
 //     };
 
 //     axios
-//       .post("https://omhrms.omlogistics.co.in/api/nearby", requestData, {
+//       .post("http://localhost:3000/geocode/nearby", requestData, {
 //         headers: {
 //           "Content-Type": "application/json",
 //         },
 //       })
 //       .then((response) => {
 //         console.log("API Response:", response.data);
-//         // If response is an object, convert to array for uniform handling
 //         const responseData = Array.isArray(response.data)
 //           ? response.data
 //           : [response.data];
@@ -38,42 +45,24 @@
 //       })
 //       .catch((error) => {
 //         console.error("API Error:", error);
-//         setApiResponse([]); // Clear data on error
+//         setApiResponse([]);
+//       })
+//       .finally(() => {
+//         setIsLoading(false); // Set loading to false after API call
 //       });
 //   };
 
 //   const columns = [
-//     {
-//       name: "KM",
-//       selector: (row) => row.KM || "N/A",
-//       sortable: true,
-//     },
-//     {
-//       name: "TAT SXL",
-//       selector: (row) => row.TAT_SXL || "N/A",
-//       sortable: true,
-//     },
-//     {
-//       name: "TAT DXL",
-//       selector: (row) => row.TAT_DXL || "N/A",
-//       sortable: true,
-//     },
-//     {
-//       name: "Remarks",
-//       selector: (row) => row.REMARKS || "N/A",
-//     },
-//     {
-//       name: "Route Via",
-//       selector: (row) => row.ROUTE_VIA || "N/A",
-//     },
-//     {
-//       name: "Verify By",
-//       selector: (row) => row.VERIFY_BY || "N/A",
-//     },
-//     {
-//       name: "Verify Date",
-//       selector: (row) => row.VERIFY_DATE || "N/A",
-//     },
+//     { name: "Vendor Name", selector: (row) => row.VEND_NAME || "N/A", sortable: true },
+//     { name: "Device", selector: (row) => row.DEVICE || "N/A", sortable: true },
+//     { name: "Latitude", selector: (row) => row.LATITUDE || "N/A", sortable: true },
+//     { name: "Longitude", selector: (row) => row.LONGITUDE || "N/A", sortable: true },
+//     { name: "Address", selector: (row) => row.ADDRESS || "N/A" },
+//     { name: "Capacity", selector: (row) => row.CAPACITY || "N/A", sortable: true },
+//     { name: "Distance (KM)", selector: (row) => row.DISTANCE || "N/A", sortable: true },
+//     { name: "Loaded Weight", selector: (row) => row.LOADED_WT || "N/A" },
+//     { name: "Utilization (%)", selector: (row) => row.UTILIZE || "N/A" },
+//     { name: "API Link", cell: (row) => <a href={row.API_LINK} target="_blank" rel="noopener noreferrer">View</a> },
 //   ];
 
 //   return (
@@ -85,76 +74,85 @@
 
 //       {/* Search Bar fixed below the header */}
 //       <div className="fixed top-20 left-0 w-full bg-gray-100 shadow-md z-10">
-//         <div className="flex items-center justify-between px-8 py-4">
+//         <div className="flex flex-wrap items-center justify-between px-4 py-4 space-y-4 sm:space-y-0 sm:flex-nowrap">
+//           {/* Back Button */}
 //           <button
 //             onClick={() => navigate("/dashboard")}
 //             className="flex items-center text-blue-800 hover:text-blue-600"
 //           >
 //             <FaArrowLeft className="text-2xl mr-2" />
-//             <span className="text-lg font-bold">Back</span>
+//             <span className="text-lg sm:text-xl font-bold">Back</span>
 //           </button>
 
-//           <div>
-//             <span className="text-3xl font-bold text-blue-800">
-//               Distance Between Vehicle
+//           {/* Title */}
+//           <div className="text-center text-blue-800">
+//             <span className="text-lg sm:text-2xl font-bold">
+//               Find Nearby Vehicles
 //             </span>
 //           </div>
 //         </div>
 
 //         {/* Search Input Section */}
-//         <div className="flex justify-between px-8 pb-4">
-//           <div className="w-1/3">
+//         <div className="flex flex-wrap sm:flex-nowrap justify-between px-4 space-y-4 sm:space-y-0 sm:space-x-4">
+//           {/* Address Input */}
+//           <div className="w-full sm:w-1/2">
 //             <label className="block mb-2 text-sm font-medium text-gray-700">
-//               From Branch (KM):
+//               Address:
 //             </label>
 //             <input
 //               type="text"
-//               placeholder="Enter branch from"
+//               placeholder="Enter proper address"
 //               className="border p-2 w-full rounded focus:outline-none"
 //               value={searchAddress}
 //               onChange={(e) => setSearchAddress(e.target.value)}
 //             />
 //           </div>
 
-//           <div className="w-1/3">
+//           {/* Distance Input */}
+//           <div className="w-full sm:w-1/3">
 //             <label className="block mb-2 text-sm font-medium text-gray-700">
-//               To Branch (KM):
+//               Distance (KM):
 //             </label>
 //             <input
-//               type="text"
-//               placeholder="Enter branch to"
+//               type="number"
+//               placeholder="Enter distance"
 //               className="border p-2 w-full rounded focus:outline-none"
-//               value={searchLocation}
-//               onChange={(e) => setSearchLocation(e.target.value)}
+//               value={searchDistance}
+//               onChange={(e) => setSearchDistance(e.target.value)}
 //             />
 //           </div>
 
-//           <div className="flex items-end">
+//           {/* Search Button */}
+//           <div className="w-full sm:w-auto flex items-center">
 //             <button
 //               onClick={handleSearch}
-//               className="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700"
+//               className="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
 //             >
-//               Get Location
+//               Get Vehicles
 //             </button>
 //           </div>
 //         </div>
 //       </div>
 
 //       {/* API Response Section */}
-//       <div className="pt-56 px-8">
+//       <div className="pt-80 md:pt-52 px-4">
 //         {hasSearched ? (
-//           apiResponse.length > 0 ? (
+//           isLoading ? (
+//             <div className="text-center text-lg font-semibold text-blue-800">
+//               Loading...
+//             </div>
+//           ) : apiResponse.length > 0 ? (
 //             <DataTable
-//               title="API Response Data"
+//               title="Nearby Vehicle Data"
 //               columns={columns}
 //               data={apiResponse}
-//               pagination
 //               highlightOnHover
 //               striped
+//               noDataComponent="No vehicles found in the specified range."
 //             />
 //           ) : (
 //             <p className="text-center text-lg font-semibold text-red-500 mt-10">
-//               No data found. Please try again.
+//               No vehicles found in the specified range.
 //             </p>
 //           )
 //         ) : (
@@ -179,69 +177,57 @@ import DataTable from "react-data-table-component";
 
 function NearByVehicle() {
   const [searchAddress, setSearchAddress] = useState("");
-  const [searchLocation, setSearchLocation] = useState("");
+  const [searchDistance, setSearchDistance] = useState("");
   const [apiResponse, setApiResponse] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // New loading state
   const navigate = useNavigate();
 
   const handleSearch = () => {
+    if (!searchAddress || !searchDistance) {
+      alert("Please enter both address and distance.");
+      return;
+    }
+
     setHasSearched(true);
+    setIsLoading(true); // Set loading to true
+
     const requestData = {
-      KM_BRANCH_FROM: searchAddress,
-      KM_BRANCH_TO: searchLocation,
+      address: searchAddress,
+      distance: parseFloat(searchDistance),
     };
 
     axios
-      .post("https://omhrms.omlogistics.co.in/api/nearby", requestData, {
+      .post("http://localhost:3000/geocode/nearby", requestData, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        console.log("API Responses:", response.data);
         const responseData = Array.isArray(response.data)
           ? response.data
           : [response.data];
         setApiResponse(responseData);
       })
-      .catch((error) => {
-        console.error("API Error:", error);
+      .catch(() => {
         setApiResponse([]);
+      })
+      .finally(() => {
+        setIsLoading(false); // Set loading to false after API call
       });
   };
 
   const columns = [
-    {
-      name: "KM",
-      selector: (row) => row.KM || "N/A",
-      sortable: true,
-    },
-    {
-      name: "TAT SXL",
-      selector: (row) => row.TAT_SXL || "N/A",
-      sortable: true,
-    },
-    {
-      name: "TAT DXL",
-      selector: (row) => row.TAT_DXL || "N/A",
-      sortable: true,
-    },
-    {
-      name: "Remarks",
-      selector: (row) => row.REMARKS || "N/A",
-    },
-    {
-      name: "Route Via",
-      selector: (row) => row.ROUTE_VIA || "N/A",
-    },
-    {
-      name: "Verify By",
-      selector: (row) => row.VERIFY_BY || "N/A",
-    },
-    {
-      name: "Verify Date",
-      selector: (row) => row.VERIFY_DATE || "N/A",
-    },
+    { name: "Vendor Name", selector: (row) => row.VEND_NAME || "N/A", sortable: true },
+    { name: "Device", selector: (row) => row.DEVICE || "N/A", sortable: true },
+    { name: "Latitude", selector: (row) => row.LATITUDE || "N/A", sortable: true },
+    { name: "Longitude", selector: (row) => row.LONGITUDE || "N/A", sortable: true },
+    { name: "Address", selector: (row) => row.ADDRESS || "N/A" },
+    { name: "Capacity", selector: (row) => row.CAPACITY || "N/A", sortable: true },
+    { name: "Distance (KM)", selector: (row) => row.DISTANCE || "N/A", sortable: true },
+    { name: "Loaded Weight", selector: (row) => row.LOADED_WT || "N/A" },
+    { name: "Utilization (%)", selector: (row) => row.UTILIZE || "N/A" },
+    { name: "API Link", cell: (row) => <a href={row.API_LINK} target="_blank" rel="noopener noreferrer">View</a> },
   ];
 
   return (
@@ -251,10 +237,9 @@ function NearByVehicle() {
         <Header />
       </div>
 
-      {/* Search Bar fixed below the header */}
-      <div className="fixed top-20 left-0 w-full bg-gray-100 shadow-md z-10">
+      {/* Search Bar */}
+      <div className="fixed top-20 left-0 w-full bg-gray-100 shadow-md z-10 ">
         <div className="flex flex-wrap items-center justify-between px-4 py-4 space-y-4 sm:space-y-0 sm:flex-nowrap">
-          {/* Back Button */}
           <button
             onClick={() => navigate("/dashboard")}
             className="flex items-center text-blue-800 hover:text-blue-600"
@@ -263,51 +248,47 @@ function NearByVehicle() {
             <span className="text-lg sm:text-xl font-bold">Back</span>
           </button>
 
-          {/* Title */}
           <div className="text-center text-blue-800">
             <span className="text-lg sm:text-2xl font-bold">
-              Distance Between Vehicle
+              Find Nearby Vehicles
             </span>
           </div>
         </div>
 
         {/* Search Input Section */}
-        <div className="flex flex-wrap sm:flex-nowrap justify-between px-4 space-y-4 sm:space-y-0 sm:space-x-4">
-          {/* From Branch Input */}
-          <div className="w-full sm:w-1/3">
+        <div className="flex flex-wrap sm:flex-nowrap  justify-between px-4 space-y-4 sm:space-y-0 sm:space-x-4">
+          <div className="w-full sm:w-1/2">
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              From Branch (KM):
+              Address:
             </label>
             <input
               type="text"
-              placeholder="Enter branch from"
+              placeholder="Enter proper address"
               className="border p-2 w-full rounded focus:outline-none"
               value={searchAddress}
               onChange={(e) => setSearchAddress(e.target.value)}
             />
           </div>
 
-          {/* To Branch Input */}
           <div className="w-full sm:w-1/3">
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              To Branch (KM):
+              Distance (KM):
             </label>
             <input
-              type="text"
-              placeholder="Enter branch to"
+              type="number"
+              placeholder="Enter distance"
               className="border p-2 w-full rounded focus:outline-none"
-              value={searchLocation}
-              onChange={(e) => setSearchLocation(e.target.value)}
+              value={searchDistance}
+              onChange={(e) => setSearchDistance(e.target.value)}
             />
           </div>
 
-          {/* Get Location Button */}
           <div className="w-full sm:w-auto flex items-center">
             <button
               onClick={handleSearch}
               className="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
             >
-              Get Location
+              Get Vehicles
             </button>
           </div>
         </div>
@@ -316,18 +297,24 @@ function NearByVehicle() {
       {/* API Response Section */}
       <div className="pt-80 md:pt-52 px-4">
         {hasSearched ? (
-          apiResponse.length > 0 ? (
+          isLoading ? (
+            <div className="text-center text-lg font-semibold text-blue-800">
+              Loading...
+            </div>
+          ) : apiResponse.length > 0 ? (
             <DataTable
-              title=" Response Data"
+              
               columns={columns}
               data={apiResponse}
-              pagination
               highlightOnHover
               striped
+              fixedHeader
+              fixedHeaderScrollHeight="400px"
+              noDataComponent="No vehicles found in the specified range."
             />
           ) : (
             <p className="text-center text-lg font-semibold text-red-500 mt-10">
-              No data found. Please try again.
+              No vehicles found in the specified range.
             </p>
           )
         ) : (
