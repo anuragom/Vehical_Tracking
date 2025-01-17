@@ -198,7 +198,7 @@ function NearByVehicle() {
     };
 
     axios
-      .post("http://localhost:3000/geocode/nearby", requestData, {
+      .post("https://omhrms.omlogistics.co.in/geocode/nearby", requestData, {
         headers: {
           "Content-Type": "application/json",
         },
