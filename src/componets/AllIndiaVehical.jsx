@@ -229,6 +229,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
 import Header from "./Header";
+import { getToken } from "../Auth/auth";
 
 function VehicleTable() {
   const [data, setData] = useState([]);
@@ -238,15 +239,36 @@ function VehicleTable() {
   const [showAll, setShowAll] = useState(false);
   const [showAllLoading, setShowAllLoading] = useState(false);
   const navigate = useNavigate();
+  const token = getToken();
 
   useEffect(() => {
     fetchAllData();
   }, []);
 
+  // const fetchAllData = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await fetch("https://omhrms.omlogistics.co.in/api/lorry_data");
+  //     const result = await response.json();
+  //     setData(result);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchAllData = async () => {
     try {
       setLoading(true);
-      const response = await fetch("https://omhrms.omlogistics.co.in/api/lorry_data");
+  
+      const response = await fetch("https://omhrms.omlogistics.co.in/api/lorry_data", {
+        method: "GET",
+        headers: {
+          Authorization: ` ${token}`, // Ensure 'Bearer' is used
+          "Content-Type": "application/json",
+        },
+      });
+  
       const result = await response.json();
       setData(result);
     } catch (error) {
@@ -255,7 +277,7 @@ function VehicleTable() {
       setLoading(false);
     }
   };
-
+  
   const filteredData = data.filter(
     (item) =>
       (item.VEND_NAME || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
