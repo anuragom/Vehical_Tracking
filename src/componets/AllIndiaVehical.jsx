@@ -245,18 +245,7 @@ function VehicleTable() {
     fetchAllData();
   }, []);
 
-  // const fetchAllData = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await fetch("https://omhrms.omlogistics.co.in/api/lorry_data");
-  //     const result = await response.json();
-  //     setData(result);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+ 
   const fetchAllData = async () => {
     try {
       setLoading(true);
@@ -362,6 +351,7 @@ function VehicleTable() {
       selector: (row) => row.ADDRESS || "N/A",
       sortable: true,
       wrap: true, // Ensures text wraps instead of truncating
+      width: "330px"
     },
     {
       name: "MAP",

@@ -370,7 +370,7 @@ function Dashboard() {
               ) : (
                 <span className="block text-2xl font-bold">{vehicleCount}</span>
               )}
-              <p className="text-blue-800 font-medium">Working Vehicle</p>
+              <p className="text-blue-800 font-medium">All Vehicles</p>
             </div>
 
             <div
@@ -385,7 +385,7 @@ function Dashboard() {
                   {notWorkingCount}
                 </span>
               )}
-              <p className="text-gray-700 font-medium">Not Working Vehicle</p>
+              <p className="text-gray-700 font-medium">Not Working Vehicles</p>
             </div>
             <div
               className="p-6 border border-green-400 rounded-xl bg-green-50 hover:bg-green-100 shadow-md cursor-pointer transform transition-all hover:scale-105"

@@ -123,6 +123,7 @@ function NotWorkingVehicleTable() {
       name: "ADDRESS",
       selector: (row) => row.ADDRESS || "N/A",
       sortable: true,
+      width: "330px"
     },
     {
       name: "MAP",
