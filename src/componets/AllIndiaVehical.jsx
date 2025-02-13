@@ -235,7 +235,7 @@ function VehicleTable() {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const [rowsPerPage, setRowsPerPage] = useState(500);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [showAll, setShowAll] = useState(false);
   const [showAllLoading, setShowAllLoading] = useState(false);
   const navigate = useNavigate();
@@ -447,7 +447,7 @@ function VehicleTable() {
             fixedHeaderScrollHeight="68vh"
             pagination={!showAll}
             paginationPerPage={rowsPerPage}
-            paginationRowsPerPageOptions={[50, 100, 200]}
+            paginationRowsPerPageOptions={[ 100, 200,500,1000,3000,6000]}
             onChangeRowsPerPage={(currentRowsPerPage) =>
               setRowsPerPage(currentRowsPerPage)
             }
