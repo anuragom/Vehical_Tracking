@@ -9,13 +9,14 @@ import AllIndiaVehical from './componets/AllIndiaVehical';
 import NotWorkingVehical from './componets/NotWorkingVehical';
 import NearbyVehical from './componets/NearbyVehical';
 import ProtectedRoute from './Routes/ProtectedRoute';
+import LiveEvents from './componets/LiveEvents';
 
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        
+        <Route path="/liveEvent" element={<LiveEvents />} />
         <Route path="/login" element={<LoginPageWrapper />} />
         <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
         <Route path="/all-india-vehicle" element={<ProtectedRoute element={<AllIndiaVehical />} />} />

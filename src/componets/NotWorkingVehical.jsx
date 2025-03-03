@@ -92,32 +92,38 @@ function NotWorkingVehicleTable() {
       name: "VEND NAME",
       selector: (row) => row.VEND_NAME || "N/A",
       sortable: true,
+       width: "150px"
     },
     {
       name: "VEHICLE NO",
       selector: (row) => row.DEVICE || "N/A",
       sortable: true,
+       width: "150px"
     },
     {
       name: "ATTACH TYPE",
       selector: (row) => row.ATTCH_TYPE || "N/A",
       sortable: true,
+       width: "150px"
     },
     {
       name: "LAST UPDATE",
       selector: (row) =>
         `${row.CDATE ? row.CDATE.split("T")[0] : "N/A"} ${row.CTIME || ""}`,
       sortable: true,
+       width: "150px"
     },
     {
       name: "VEHICLE TYPE",
       selector: (row) => row.LORRY_TYPE || "Unknown",
       sortable: true,
+         width: "150px"
     },
     {
       name: "OWNER NO",
       selector: (row) => row.OWNER_NO || "N/A",
       sortable: true,
+       width: "150px"
     },
     {
       name: "ADDRESS",
