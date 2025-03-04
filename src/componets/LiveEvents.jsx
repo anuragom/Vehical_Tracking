@@ -323,42 +323,46 @@ const LiveEvents = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <ToastContainer />
-        <form onSubmit={handleLogin} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="******************"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Sign In
-            </button>
-          </div>
-        </form>
+      
+
+<form onSubmit={handleLogin} className="bg-white shadow-lg rounded-lg px-10 pt-8 pb-10 mb-6 max-w-md mx-auto border border-gray-300">
+  <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">Om Logistics Camera Analytics</h2>
+  <div className="mb-5">
+    <label className="block text-gray-800 text-sm font-semibold mb-2" htmlFor="username">
+      Username
+    </label>
+    <input
+      className="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      id="username"
+      type="text"
+      placeholder="Enter your username"
+      value={username}
+      onChange={(e) => setUsername(e.target.value)}
+    />
+  </div>
+  <div className="mb-6">
+    <label className="block text-gray-800 text-sm font-semibold mb-2" htmlFor="password">
+      Password
+    </label>
+    <input
+      className="shadow-sm border border-gray-300 rounded-lg w-full py-2 px-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      id="password"
+      type="password"
+      placeholder="Enter your password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+  </div>
+  <div className="flex items-center justify-between">
+    <button
+      className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      type="submit"
+    >
+      Sign In
+    </button>
+  </div>
+</form>
+
       </div>
     );
   }
